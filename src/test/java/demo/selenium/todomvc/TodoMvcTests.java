@@ -12,6 +12,10 @@ import pages.TodoMvcPage;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Running tests in Parallel in multiple browser instances
+ */
+
 @ExtendWith(SeleniumExtension.class)
 @DisplayName("Managing ToDo's")
 public class TodoMvcTests {

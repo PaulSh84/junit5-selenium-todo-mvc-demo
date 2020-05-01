@@ -1,13 +1,12 @@
 package demo.selenium.todomvc;
 
 import io.github.bonigarcia.seljup.SeleniumExtension;
-import io.github.bonigarcia.seljup.SingleSession;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
 import pages.TodoMvc;
 import pages.TodoMvcPage;
@@ -16,22 +15,21 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 /**
- * Running Tests in Parallel in One Browser Session
+ * Running Tests being agnostic of the browser type
  */
 
 @ExtendWith(SeleniumExtension.class)
-@SingleSession
 @DisplayName("Managing ToDo's")
-public class TodoMvcTestsInOneBrowser {
+public class TodoMvcTestsBrowserAgnostic {
 
     private TodoMvc todoMvc;
-    private final ChromeDriver driver;
+    private final WebDriver driver;
 
     private final String buyTheMilk = "Buy the milk";
     private final String cleanupTheRoom = "Clean up the room";
     private final String readTheBook = "Read the book";
 
-    public TodoMvcTestsInOneBrowser(ChromeDriver driver) {
+    public TodoMvcTestsBrowserAgnostic(WebDriver driver) {
         this.driver = driver;
         this.todoMvc = PageFactory.initElements(driver, TodoMvcPage.class);
         this.todoMvc.navigateTo();
@@ -39,7 +37,7 @@ public class TodoMvcTestsInOneBrowser {
 
     @AfterEach
     void storageCleanup() {
-        driver.getLocalStorage().clear();
+        ((JavascriptExecutor)driver).executeScript("window.localStorage.clear()");
     }
 
     @Test
